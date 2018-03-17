@@ -5,6 +5,8 @@ import java.util.Random;
 /**
  * this allows the cells to function and is linked to the panel
  * @author Dan Gritters
+ * @version 1.0
+ * @since 1.0
  *
  */
 public class MineSweeperGame {
