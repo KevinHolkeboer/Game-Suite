@@ -22,6 +22,7 @@ import java.awt.event.*;
 /**
  * 
  * @author Dan Gritters
+ * For CIS350 Final Project - Game Suite
  *creates a panel for a GUI that is created in the main method
  */
 public class MineSweeperPanel extends JPanel{
