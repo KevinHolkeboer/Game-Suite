@@ -22,7 +22,10 @@ import java.awt.event.*;
 /**
  * 
  * @author Dan Gritters
+ * For CIS350 Final Project - Game Suite
  *creates a panel for a GUI that is created in the main method
+ * @version 1.0
+ * @since 1.0
  */
 public class MineSweeperPanel extends JPanel{
 	
@@ -33,7 +36,10 @@ public class MineSweeperPanel extends JPanel{
 	private MineSweeperGame game;
 	private int size;
 	private int mines;
+	
+	//flagger used to determine if clicking the cell or adding a flag
 	private boolean flagger;
+	
 	/**
 	 * Constructor for the panel includes all of the buttons for game, asking how many buttons you want and how many mines,
 	 * also instantiates the quit button, the wins and losses counter, and the flag button.
@@ -45,6 +51,7 @@ public class MineSweeperPanel extends JPanel{
 		size = 10;
 		mines = 10;
 		
+		//add the restart button as an action listener
 		restartButton = new JButton("Restart");
 		restartButton.addActionListener(new ButtonListener());
 		loc.gridx = 0;
@@ -52,12 +59,14 @@ public class MineSweeperPanel extends JPanel{
 		loc.insets = new Insets(8,8,8,8);
 		this.add(this.restartButton, loc);
 		
+		//add the flag button as an action listener
 		flagButton = new JButton("Flag");
 		loc.gridx = 1;
 		loc.gridy = 0;
 		flagButton.addActionListener(new ButtonListener());
 		this.add(this.flagButton, loc);
-
+        
+		//create a panel for the minesweeper buttons
 		setBackground(Color.gray);
 		GridLayout experimentLayout = new GridLayout(size,size);
 		JPanel somePanel = new JPanel();	
@@ -65,6 +74,7 @@ public class MineSweeperPanel extends JPanel{
 		board = new JButton[size][size];
 		flagger = false;
 		
+		//initialize the 2D array of buttons
 		for (int row = 0; row < size; row++){
 			for(int col = 0; col < size; col++){
 				board[row][col] = new JButton();
@@ -76,6 +86,8 @@ public class MineSweeperPanel extends JPanel{
 		loc.gridx = 0;
 		loc.gridy = 1;
 		loc.gridwidth = 2;
+		
+		//append the button panel to the minesweeper panel
 		this.add(somePanel, loc);
 		game = new MineSweeperGame(size,mines);
 	}
@@ -88,13 +100,18 @@ public class MineSweeperPanel extends JPanel{
 	private void displayBoard(){
 		for(int row = 0; row < size; row++){
 			for(int col = 0; col < size; col++){
+				
 				tempCell = game.getCell(row,col);
 				int mines = tempCell.getMineCount();
+				
+				//display the amount of adjacent mines if its clicked and isnt a mine
 				if(tempCell.isExposed() && !tempCell.getIsMine()){
-					//board[row][col].setEnabled(false);
+					
+					//displays the number in the cell
 					if(mines != 0){
 						board[row][col].setText("" + mines);
 					}
+					//changes the color of the number
 					if(mines == 1){
 						board[row][col].setForeground(Color.blue);
 					} else if(mines == 2){
@@ -114,6 +131,7 @@ public class MineSweeperPanel extends JPanel{
 					}
 					board[row][col].setBackground(Color.lightGray);
 				} else if(!tempCell.isExposed() && tempCell.getIsFlagged()){
+					//if flagged display icon
 					board[row][col].setIcon(new ImageIcon("flag.png"));
 				} else {
 					board[row][col].setEnabled(true);
@@ -148,14 +166,18 @@ public class MineSweeperPanel extends JPanel{
 			} else if (checkGameStatus()){
 				for (int row = 0; row < size; row++){
 					 for (int col = 0; col < size; col++){
+						 //check which button was the event source
 						 if (board[row][col] == event.getSource()){
-							if(flagger){
+							//if flagger is set, then change if the cell is flagged
+							 if(flagger){
 								game.getCell(row,col).changeIsFlagged();
 								displayBoard();
 							} else {
 								game.select(row, col);
+								
 								expandArea(row,col);
 								displayBoard();
+								//if the game is over display where all the bombs where
 								if(game.getGameStatus() == GameStatus.Lost){
 									selectAllBombs();
 									displayBoard();
