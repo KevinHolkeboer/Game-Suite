@@ -16,15 +16,16 @@ public class GameController {
 	/**
 	 * The pattern the player must match.
 	 */
-	ArrayList<JButton> pattern = new ArrayList();
+	ArrayList<JButton> pattern = new ArrayList<JButton>();
 	/**
 	 * The number correct buttons the player has selected each round.
 	 */
 	int playerLoc;
 	/**
-	 * A random number used to add a button to the pattern at the end of each round.
+	 * A random number used to add a button to the pattern at the end of
+	 * each round.
 	 */
-	Random num = new Random();
+	private Random num = new Random();
 	/**
 	 * Flag to say to if the player selected the correct button.
 	 */
@@ -35,7 +36,7 @@ public class GameController {
 	 * @param starter
 	 * 			The first button that the player must press.
 	 */
-	public GameController (JButton starter) {
+	public GameController(final JButton starter) {
 		pattern.add(starter);
 		playerLoc = 0;
 		
@@ -46,14 +47,14 @@ public class GameController {
 	 * 
 	 * @param clickedButton
 	 * 			The button the player click.
-	 * @return true if the button matches the pattern at the current location otherwise return false.
+	 * @return true if the button matches the pattern at the current
+	 * location otherwise return false.
 	 */
-	public boolean checkColor (JButton clickedButton) {
+	public boolean checkColor(final JButton clickedButton) {
 		
-		if(clickedButton == pattern.get(playerLoc)) {
+		if (clickedButton == pattern.get(playerLoc)) {
 			correctColor = true;
-		}
-		else {
+		} else {
 			correctColor = false;
 		}
 		return correctColor;
@@ -63,9 +64,10 @@ public class GameController {
 	 * Adds a new button to the end of the pattern.
 	 * 
 	 * @param colors
-	 * 			An array containing the four possible buttons of the pattern.
+	 * An array containing the four possible buttons
+	 * of the pattern.
 	 */
-	public void newColor (JButton[] colors) {
+	public void newColor(final JButton[] colors) {
 		pattern.add(colors[num.nextInt(4)]);
 		
 	}
